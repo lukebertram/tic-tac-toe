@@ -16,6 +16,8 @@ Game.prototype.currentPlayer = function(){
 }
 
 Game.prototype.setupBoard = function(){
+  $('.col-md').text("");
+  $('#victory').hide();
   for (var x = 1; x < 4; x++) {
     for (var y = 1; y < 4; y++) {
       $('div#col'+ x +'-'+ y).click(generateClickHandler(x, y));
@@ -56,6 +58,7 @@ Game.prototype.gameOver = function(string){
   //disable click handlers?
   //display replay button
 }
+
 
 function Player(team, name){
   this.team = team;
@@ -107,6 +110,10 @@ var board = game.board;
 //front end flights of fancy
 $(document).ready(function(){
   game.setupBoard();
+  $("#play-again").click(function() {
+    game = new Game("Player X","Player O");
+    game.setupBoard();
+  });
 
 
 
