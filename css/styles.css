@@ -1,0 +1,19 @@
+body {
+  background-color: #333;
+  color: #ccc;
+}
+
+.title {
+
+  text-align: center;
+}
+.row {
+  max-width: 604px;
+  margin: auto;
+}
+.col-md {
+  background-color: #ccc;
+  height: 200px;
+  width: 200px;
+  border: 1px solid white;
+}
