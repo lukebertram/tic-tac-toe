@@ -55,6 +55,7 @@ Game.prototype.gameOver = function(string){
   game.active = false;
   //display victory screen
   $("#victory").show();
+  $("#won-message").text(game.currentPlayer().name + " Won!")
   //disable click handlers?
   //display replay button
 }
@@ -99,7 +100,9 @@ var generateClickHandler = function(xCoord, yCoord) {
       $('div#col'+ xCoord +'-'+ yCoord).text(team);
       game.board.spaces[spaceIndex].markedBy = team;
       game.checkWinner();
+      if (game.active) {
       game.turn = !game.turn;
+      }
     }
   }
 }
