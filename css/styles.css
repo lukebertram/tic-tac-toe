@@ -23,6 +23,10 @@ body {
   width: 200px;
   border: 1px solid white;
 }
+.col-md:hover {
+  background-color: #dedfe0;
+  cursor: pointer;
+}
 #victory{
   display: none;
   text-align: center;
@@ -31,4 +35,7 @@ body {
 #victory h1{
   font-size: 10em;
   color: pink;
+}
+.btn:hover {
+  cursor: pointer;
 }

@@ -69,7 +69,7 @@ Game.prototype.gameOver = function(string){
   } else {
     $("#won-message").text(game.currentPlayer().name + " Won!");
   }
-  $("#victory").show();
+  $("#victory").fadeIn();
   //disable click handlers?
   //display replay button
 }
