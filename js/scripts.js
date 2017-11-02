@@ -37,8 +37,6 @@ function Space(xCoord, yCoord){
 
 var generateClickHandler = function(xCoord, yCoord) {
   return function() {
-    $('div#col'+ xCoord +'-'+ yCoord).css('background-color', 'red');
-    debugger
     var spaceIndex;
     if (xCoord === 1){
       spaceIndex = yCoord -1;
@@ -47,8 +45,12 @@ var generateClickHandler = function(xCoord, yCoord) {
     } else {
       spaceIndex = yCoord + 5;
     }
-    var team = game.currentPlayer().team;
-    game.board.spaces[spaceIndex].markedBy = team;
+    if (game.board.spaces[spaceIndex].markedBy === ""){
+      var team = game.currentPlayer().team;
+      $('div#col'+ xCoord +'-'+ yCoord).text(team);
+      game.board.spaces[spaceIndex].markedBy = team;
+      game.turn = !game.turn;
+    }
   }
 }
 
