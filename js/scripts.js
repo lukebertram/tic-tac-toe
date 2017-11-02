@@ -14,6 +14,55 @@ Game.prototype.currentPlayer = function(){
   }
 }
 
+Game.prototype.setupBoard = function(){
+  for (var x = 1; x < 4; x++) {
+    for (var y = 1; y < 4; y++) {
+      $('div#col'+ x +'-'+ y).click(generateClickHandler(x, y));
+    }
+  }
+}
+
+Game.prototype.checkWinner = function(){
+  var spaces = this.board.spaces;
+  //check for vertical wins
+  if (spaces[0].markedBy === spaces[1].markedBy && spaces[1].markedBy === spaces[2].markedBy && spaces[0].markedBy !== ""){
+    alert("Congratulation, "+ game.currentPlayer().name +"! You got the left column!");
+    game.gameOver();
+  } else if (spaces[3].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[5].markedBy && spaces[3].markedBy !== ""){
+    alert("Congratulation, "+ game.currentPlayer().name +"! You got the middle column!");
+    game.gameOver();
+  } else if (spaces[6].markedBy === spaces[7].markedBy && spaces[7].markedBy === spaces[8].markedBy && spaces[6].markedBy !== ""){
+    alert("Congratulation, "+ game.currentPlayer().name +"! You got the right column!");
+    game.gameOver();
+
+  //check for horizontal wins
+  } else if (spaces[0].markedBy === spaces[3].markedBy && spaces[3].markedBy === spaces[6].markedBy && spaces[0].markedBy !== ""){
+    alert("Congratulation, "+ game.currentPlayer().name +"! You got the top row!");
+    game.gameOver();
+  } else if (spaces[1].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[7].markedBy && spaces[1].markedBy !== ""){
+    alert("Congratulation, "+ game.currentPlayer().name +"! You got the middle row!");
+    game.gameOver();
+  } else if (spaces[2].markedBy === spaces[5].markedBy && spaces[5].markedBy === spaces[8].markedBy && spaces[2].markedBy !== ""){
+    alert("Congratulation, "+ game.currentPlayer().name +"! You got the bottom row!");
+    game.gameOver();
+
+    //check for diagonal wins
+  } else if (spaces[0].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[8].markedBy && spaces[0].markedBy !== ""){
+    alert("Congratulation, "+ game.currentPlayer().name +"! You got a diagonal!");
+    game.gameOver();
+  } else if (spaces[2].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[6].markedBy && spaces[2].markedBy !== ""){
+    alert("Congratulation, "+ game.currentPlayer().name +"! You got a diagonal!");
+    game.gameOver();
+  }
+}
+
+Game.prototype.gameOver = function(){
+  //display victory screen
+  alert("victory");
+  //disable click handlers?
+  //display replay button
+}
+
 function Player(team, name){
   this.team = team;
   this.name = name;
@@ -34,6 +83,7 @@ function Space(xCoord, yCoord){
   this.yCoord = yCoord;
   this.markedBy = "";
 }
+// var spaceId = game(board(this.spaces[i]));
 
 var generateClickHandler = function(xCoord, yCoord) {
   return function() {
@@ -49,28 +99,19 @@ var generateClickHandler = function(xCoord, yCoord) {
       var team = game.currentPlayer().team;
       $('div#col'+ xCoord +'-'+ yCoord).text(team);
       game.board.spaces[spaceIndex].markedBy = team;
+      game.checkWinner();
       game.turn = !game.turn;
     }
   }
 }
 
-var game = new Game("player1","player2");
+
+var game = new Game("Player X","Player O");
 var board = game.board;
 //front end flights of fancy
 $(document).ready(function(){
-  for (var x = 1; x < 4; x++) {
-    for (var y = 1; y < 4; y++) {
-      // var xCoord = x.toString();
-      // var yCoord = y.toString();
-      $('div#col'+ x +'-'+ y).click(generateClickHandler(x, y));
-        // for (var i = 0; i < spaces.length; i++) {
-        //   if (spaces[i].coords === (x.toString + y.toString)){
-        //     spaces[i].markedBy = "X";
-        //   }
-        //
-        // }
-    }
-  }
+  game.setupBoard();
+
 
 
 
