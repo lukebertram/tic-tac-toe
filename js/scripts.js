@@ -4,6 +4,7 @@ function Game(p1,p2){
   this.player2 = new Player("O",p2);
   this.board = new Board();
   this.turn = true;
+  this.active = true;
 }
 
 Game.prototype.currentPlayer = function(){
@@ -26,39 +27,32 @@ Game.prototype.checkWinner = function(){
   var spaces = this.board.spaces;
   //check for vertical wins
   if (spaces[0].markedBy === spaces[1].markedBy && spaces[1].markedBy === spaces[2].markedBy && spaces[0].markedBy !== ""){
-    alert("Congratulation, "+ game.currentPlayer().name +"! You got the left column!");
-    game.gameOver();
+    game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got the left column!");
   } else if (spaces[3].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[5].markedBy && spaces[3].markedBy !== ""){
-    alert("Congratulation, "+ game.currentPlayer().name +"! You got the middle column!");
-    game.gameOver();
+    game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got the middle column!");
   } else if (spaces[6].markedBy === spaces[7].markedBy && spaces[7].markedBy === spaces[8].markedBy && spaces[6].markedBy !== ""){
-    alert("Congratulation, "+ game.currentPlayer().name +"! You got the right column!");
-    game.gameOver();
+    game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got the right column!");
 
   //check for horizontal wins
   } else if (spaces[0].markedBy === spaces[3].markedBy && spaces[3].markedBy === spaces[6].markedBy && spaces[0].markedBy !== ""){
-    alert("Congratulation, "+ game.currentPlayer().name +"! You got the top row!");
-    game.gameOver();
+    game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got the top row!");
   } else if (spaces[1].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[7].markedBy && spaces[1].markedBy !== ""){
-    alert("Congratulation, "+ game.currentPlayer().name +"! You got the middle row!");
-    game.gameOver();
+    game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got the middle row!");
   } else if (spaces[2].markedBy === spaces[5].markedBy && spaces[5].markedBy === spaces[8].markedBy && spaces[2].markedBy !== ""){
-    alert("Congratulation, "+ game.currentPlayer().name +"! You got the bottom row!");
-    game.gameOver();
+    game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got the bottom row!");
 
     //check for diagonal wins
   } else if (spaces[0].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[8].markedBy && spaces[0].markedBy !== ""){
-    alert("Congratulation, "+ game.currentPlayer().name +"! You got a diagonal!");
-    game.gameOver();
+    game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got a diagonal!");
   } else if (spaces[2].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[6].markedBy && spaces[2].markedBy !== ""){
-    alert("Congratulation, "+ game.currentPlayer().name +"! You got a diagonal!");
-    game.gameOver();
+    game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got a diagonal!");
   }
 }
 
-Game.prototype.gameOver = function(){
+Game.prototype.gameOver = function(string){
+  game.active = false;
   //display victory screen
-  alert("victory");
+  $("#victory").show();
   //disable click handlers?
   //display replay button
 }
@@ -83,11 +77,12 @@ function Space(xCoord, yCoord){
   this.yCoord = yCoord;
   this.markedBy = "";
 }
-// var spaceId = game(board(this.spaces[i]));
 
+//when a space is clicked, this function handles the business
 var generateClickHandler = function(xCoord, yCoord) {
   return function() {
     var spaceIndex;
+    // translate the x,y coords into a the proper array index
     if (xCoord === 1){
       spaceIndex = yCoord -1;
     } else if (xCoord === 2){
@@ -95,7 +90,8 @@ var generateClickHandler = function(xCoord, yCoord) {
     } else {
       spaceIndex = yCoord + 5;
     }
-    if (game.board.spaces[spaceIndex].markedBy === ""){
+    //only mark the space if it is not already occupied by a player's mark
+    if (game.board.spaces[spaceIndex].markedBy === "" && game.active){
       var team = game.currentPlayer().team;
       $('div#col'+ xCoord +'-'+ yCoord).text(team);
       game.board.spaces[spaceIndex].markedBy = team;

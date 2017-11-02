@@ -23,3 +23,12 @@ body {
   width: 200px;
   border: 1px solid white;
 }
+#victory{
+  display: none;
+  text-align: center;
+}
+
+#victory h1{
+  font-size: 10em;
+  color: pink;
+}
