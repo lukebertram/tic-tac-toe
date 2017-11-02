@@ -49,13 +49,27 @@ Game.prototype.checkWinner = function(){
   } else if (spaces[2].markedBy === spaces[4].markedBy && spaces[4].markedBy === spaces[6].markedBy && spaces[2].markedBy !== ""){
     game.gameOver("Congratulation, "+ game.currentPlayer().name +"! You got a diagonal!");
   }
+
+  var fullBoard = true;
+  for (var i = 0; i < spaces.length; i++) {
+    if (spaces[i].markedBy === ""){
+      fullBoard = false;
+    }
+  }
+  if (fullBoard && game.active){
+    game.gameOver("nope");
+  }
 }
 
 Game.prototype.gameOver = function(string){
   game.active = false;
   //display victory screen
+  if (string === "nope") {
+    $("#won-message").text("Draw game! Everyone loses!");
+  } else {
+    $("#won-message").text(game.currentPlayer().name + " Won!");
+  }
   $("#victory").show();
-  $("#won-message").text(game.currentPlayer().name + " Won!")
   //disable click handlers?
   //display replay button
 }
